@@ -1,0 +1,1 @@
+Deno.serve((req)=>{return new Response(req.headers.get('host'))})
