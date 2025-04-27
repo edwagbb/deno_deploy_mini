@@ -1,5 +1,5 @@
 var PORT_RANGE = [30000, 40000]
-var CLEAR_TIMEOUT = 2 * 60 * 1000;
+var CLEAR_TIMEOUT = 10 * 60 * 1000;
 
 var FILE_MODE = import.meta.url.indexOf("file:") === 0 || false;
 var WORKER_LIST = {}
