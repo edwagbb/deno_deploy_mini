@@ -16,7 +16,7 @@ setInterval(() => {
 
 try {
     Deno.serve({ port: Deno.env.get("PORT") || 8000 }, handler);
-} catch (e) { port = 8000; }
+} catch (e) { console.error(e) }
 
 
 async function handler(req) {
