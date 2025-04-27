@@ -16,7 +16,7 @@ setInterval(() => {
 
 try {
     Deno.serve({ port: Deno.env.get("PORT") || 8000 }, handler);
-} catch (e) { console.error(e) }
+} catch (e) {  }
 
 
 async function handler(req) {
@@ -80,6 +80,11 @@ async function ServeInWorker(jsCode, PORT_RANGE, host) {
 //Hook Deno.serve 实现固定端口
 ;(()=>{
 const originalServe = Deno.serve;
+const originalopenKv = Deno.openKv;
+Deno.openKv = function(path){
+if(path) return originalopenKv(path);
+else return originalopenKv("kv.db"); //不指定无法保存
+}
 Deno.serve = function hookedServe(optionsOrHandler, maybeHandler) {
  
   
@@ -199,11 +204,11 @@ ${jsCode}
     const worker = new Worker(dataUrl, {
         type: "module",
         deno: {
-            namespace: false, // 不允许访问Deno命名空间
+            namespace: true, // 不允许访问Deno命名空间
             permissions: {
                 net: true,     // 允许网络访问
-                read: false,    // 不允许文件读取
-                write: false,   // 不允许文件写入
+                read: true,    // 不允许文件读取
+                write: true,   // 不允许文件写入
                 env: false,     // 不允许环境变量访问
                 hrtime: true,  // 允许高精度时间
                 run: false      // 不允许运行子进程
