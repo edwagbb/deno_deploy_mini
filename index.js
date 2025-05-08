@@ -57,7 +57,7 @@ async function handler(req) {
           }
         }
 
-        var { worker, port } = await ServeInWorker(js_code, PORT_RANGE, host)
+        var { worker, port } = await ServeInWorker(js_code, PORT_RANGE, host.replace(/^re-/, ""))
 
         WORKER_LIST[handler_js] = {
           code: js_code,
@@ -80,7 +80,7 @@ async function handler(req) {
       }
     } else if (WORKER_LIST[handler_js].resolve) {
       await new Promise(r => {
-        WORKER_LIST.resolve.push(r)
+        WORKER_LIST[handler_js].resolve.push(r)
       })
     }
 
